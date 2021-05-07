@@ -30,9 +30,11 @@ class _FormSignUpState extends State<FormSignUp> {
             SizeBox,
             TextFormField(
               autofocus:  true,
+              maxLength: 50,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 filled: true,
+                icon: const Icon(Icons.person),
                 hintText: 'Your email address',
                 labelText: 'Email',
               ),
@@ -50,6 +52,7 @@ class _FormSignUpState extends State<FormSignUp> {
             TextFormField(
               decoration: InputDecoration(
                   filled: true,
+                  icon: const Icon(Icons.lock),
                   labelText: 'Password',
                   suffixIcon: IconButton(
                       icon: Icon(
@@ -77,7 +80,8 @@ class _FormSignUpState extends State<FormSignUp> {
             TextFormField(
               decoration: InputDecoration(
                   filled: true,
-                  labelText: 'Password',
+                  icon: const Icon(Icons.lock),
+                  labelText: 'Confirm Password',
                   suffixIcon: IconButton(
                       icon: Icon(
                           _isObscure ? Icons.visibility : Icons.visibility_off),

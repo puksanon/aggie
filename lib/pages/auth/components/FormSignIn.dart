@@ -1,4 +1,4 @@
-import 'package:flutter/gestures.dart';
+import 'package:aggie/pages/plot_map/map_plot_screen.dart';
 import 'package:flutter/material.dart';
 
 class JsonSerializable {
@@ -13,7 +13,8 @@ class FormSignIn extends StatefulWidget {
 class _FormSignInState extends State<FormSignIn> {
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
-
+  String email = "";
+  String password = "";
   @override
   Widget build(BuildContext context) {
     const SizeBox = SizedBox(
@@ -33,10 +34,13 @@ class _FormSignInState extends State<FormSignIn> {
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 filled: true,
+                icon: const Icon(Icons.person),
                 hintText: 'Your email address',
                 labelText: 'Email',
               ),
-              onChanged: (value) {},
+              onChanged: (value) {
+                this.email = value;
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
@@ -48,6 +52,7 @@ class _FormSignInState extends State<FormSignIn> {
             TextFormField(
               decoration: InputDecoration(
                   filled: true,
+                  icon: const Icon(Icons.lock),
                   hintText: 'Your password',
                   labelText: 'Password',
                   suffixIcon: IconButton(
@@ -60,7 +65,9 @@ class _FormSignInState extends State<FormSignIn> {
                       })),
               maxLength: 15,
               obscureText: _isObscure,
-              onChanged: (value) {},
+              onChanged: (value) {
+                this.password = value;
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
@@ -74,8 +81,7 @@ class _FormSignInState extends State<FormSignIn> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Processing Data')));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PlotMapScreen()));
                   }
                 },
                 child: Text('Submit'),

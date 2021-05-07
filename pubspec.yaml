@@ -23,6 +23,7 @@ environment:
 dependencies:
   json_annotation: ^4.0.1
   http: ^0.13.2
+  google_maps_flutter : ^2.0.3
   flutter:
     sdk: flutter
 
