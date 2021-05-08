@@ -21,9 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  http: ^0.13.3
   json_annotation: ^4.0.1
-  http: ^0.13.2
-  google_maps_flutter : ^2.0.3
+  google_maps_flutter: ^2.0.3
+  location: 2.3.5
+  url_launcher: 5.0.2
   flutter:
     sdk: flutter
 

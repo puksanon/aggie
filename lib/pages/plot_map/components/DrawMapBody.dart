@@ -3,16 +3,19 @@ import 'dart:collection';
 import 'dart:io';
 import 'dart:math' as Math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class MapBody extends StatefulWidget {
   @override
   _MapBodyState createState() => _MapBodyState();
 }
 
-class _MapBodyState extends State<MapBody> {
-  static final Completer<GoogleMapController> _controller = Completer();
 
+class _MapBodyState extends State<MapBody> {
+  LocationData currentLocation;
+  static final Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -22,7 +25,7 @@ class _MapBodyState extends State<MapBody> {
   final Set<Polyline> _polyLines = HashSet<Polyline>();
 
   bool _drawPolygonEnabled = false;
-  List<LatLng> _userPolyLinesLatLngList = List();
+  List<LatLng> _userPolyLinesLatLngList = [];
   bool _clearDrawing = false;
   int _lastXCoordinate, _lastYCoordinate;
 
@@ -33,21 +36,60 @@ class _MapBodyState extends State<MapBody> {
         onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
         onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
         child: GoogleMap(
-          mapType: MapType.normal,
+          mapType: MapType.satellite,
           initialCameraPosition: _kGooglePlex,
           polygons: _polygons,
           polylines: _polyLines,
+          myLocationEnabled: true,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleDrawing,
-        tooltip: 'Drawing',
-        child: Icon((_drawPolygonEnabled) ? Icons.cancel : Icons.edit),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: _toggleDrawing,
+              tooltip: 'Drawing',
+              child: Icon((_drawPolygonEnabled) ? Icons.cancel : Icons.edit),
+            ),
+            FloatingActionButton.extended(
+              onPressed: _goToMe,
+              label: Text('My location'),
+              icon: Icon(Icons.near_me),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<LocationData> getCurrentLocation() async {
+    Location location = Location();
+    try {
+      return await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        // Permission denied
+      }
+      return null;
+    }
+  }
+
+  Future _goToMe() async {
+    final GoogleMapController controller = await _controller.future;
+    currentLocation = await getCurrentLocation();
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+              currentLocation.latitude,
+              currentLocation.longitude),
+          zoom: 16,
+        )));
   }
 
   _toggleDrawing() {
@@ -81,7 +123,8 @@ class _MapBodyState extends State<MapBody> {
       // Check if the distance between last point is not too far.
       // to prevent two fingers drawing.
       if (_lastXCoordinate != null && _lastYCoordinate != null) {
-        var distance = Math.sqrt(Math.pow(xCoordinate - _lastXCoordinate, 2) + Math.pow(yCoordinate - _lastYCoordinate, 2));
+        var distance = Math.sqrt(Math.pow(xCoordinate - _lastXCoordinate, 2) +
+            Math.pow(yCoordinate - _lastYCoordinate, 2));
         // Check if the distance of point and point is large.
         if (distance > 80.0) return;
       }
@@ -90,7 +133,8 @@ class _MapBodyState extends State<MapBody> {
       _lastXCoordinate = xCoordinate;
       _lastYCoordinate = yCoordinate;
 
-      ScreenCoordinate screenCoordinate = ScreenCoordinate(x: xCoordinate, y: yCoordinate);
+      ScreenCoordinate screenCoordinate =
+          ScreenCoordinate(x: xCoordinate, y: yCoordinate);
 
       final GoogleMapController controller = await _controller.future;
       LatLng latLng = await controller.getLatLng(screenCoordinate);
@@ -99,7 +143,8 @@ class _MapBodyState extends State<MapBody> {
         // Add new point to list.
         _userPolyLinesLatLngList.add(latLng);
 
-        _polyLines.removeWhere((polyline) => polyline.polylineId.value == 'user_polyline');
+        _polyLines.removeWhere(
+            (polyline) => polyline.polylineId.value == 'user_polyline');
         _polyLines.add(
           Polyline(
             polylineId: PolylineId('user_polyline'),
@@ -121,7 +166,8 @@ class _MapBodyState extends State<MapBody> {
     _lastYCoordinate = null;
 
     if (_drawPolygonEnabled) {
-      _polygons.removeWhere((polygon) => polygon.polygonId.value == 'user_polygon');
+      _polygons
+          .removeWhere((polygon) => polygon.polygonId.value == 'user_polygon');
       _polygons.add(
         Polygon(
           polygonId: PolygonId('user_polygon'),
@@ -145,3 +191,4 @@ class _MapBodyState extends State<MapBody> {
     });
   }
 }
+
