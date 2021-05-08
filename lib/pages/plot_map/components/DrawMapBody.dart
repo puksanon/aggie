@@ -3,9 +3,7 @@ import 'dart:collection';
 import 'dart:io';
 import 'dart:math' as Math;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 class MapBody extends StatefulWidget {
   @override
@@ -14,11 +12,10 @@ class MapBody extends StatefulWidget {
 
 
 class _MapBodyState extends State<MapBody> {
-  LocationData currentLocation;
   static final Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(13.7650836, 100.5379664),
+    zoom: 16,
   );
 
   final Set<Polygon> _polygons = HashSet<Polygon>();
@@ -50,46 +47,17 @@ class _MapBodyState extends State<MapBody> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             FloatingActionButton(
               onPressed: _toggleDrawing,
               tooltip: 'Drawing',
               child: Icon((_drawPolygonEnabled) ? Icons.cancel : Icons.edit),
             ),
-            FloatingActionButton.extended(
-              onPressed: _goToMe,
-              label: Text('My location'),
-              icon: Icon(Icons.near_me),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<LocationData> getCurrentLocation() async {
-    Location location = Location();
-    try {
-      return await location.getLocation();
-    } on PlatformException catch (e) {
-      if (e.code == 'PERMISSION_DENIED') {
-        // Permission denied
-      }
-      return null;
-    }
-  }
-
-  Future _goToMe() async {
-    final GoogleMapController controller = await _controller.future;
-    currentLocation = await getCurrentLocation();
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(
-              currentLocation.latitude,
-              currentLocation.longitude),
-          zoom: 16,
-        )));
   }
 
   _toggleDrawing() {
