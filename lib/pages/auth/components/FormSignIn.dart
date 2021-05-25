@@ -1,4 +1,4 @@
-import 'package:aggie/pages/plot_map/map_plot_screen.dart';
+import 'package:aggie/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class JsonSerializable {
@@ -81,7 +81,7 @@ class _FormSignInState extends State<FormSignIn> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PlotMapScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
                   }
                 },
                 child: Text('Submit'),
