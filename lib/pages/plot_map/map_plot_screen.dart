@@ -29,7 +29,7 @@ class _MapPlotScreen extends State<MapPlotScreen> {
 
   @override
   void initState() {
-    if(widget.location != null) {
+    if (widget.location != null) {
       _currentLocation = widget.location;
     }
     super.initState();
@@ -48,7 +48,8 @@ class _MapPlotScreen extends State<MapPlotScreen> {
         child: GoogleMap(
           mapType: MapType.hybrid,
           initialCameraPosition: CameraPosition(
-            target: LatLng( _currentLocation.latitude , _currentLocation.longitude),
+            target:
+                LatLng(_currentLocation.latitude, _currentLocation.longitude),
             zoom: 13,
           ),
           polygons: _polygons,
@@ -96,13 +97,10 @@ class _MapPlotScreen extends State<MapPlotScreen> {
   Future _goToMe() async {
     final GoogleMapController controller = await _controller.future;
     _currentLocation = await getCurrentLocation();
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(
-              _currentLocation.latitude,
-              _currentLocation.longitude),
-          zoom: 16,
-        )));
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(_currentLocation.latitude, _currentLocation.longitude),
+      zoom: 16,
+    )));
   }
 
   _toggleDrawing() {
@@ -147,7 +145,7 @@ class _MapPlotScreen extends State<MapPlotScreen> {
       _lastYCoordinate = yCoordinate;
 
       ScreenCoordinate screenCoordinate =
-      ScreenCoordinate(x: xCoordinate, y: yCoordinate);
+          ScreenCoordinate(x: xCoordinate, y: yCoordinate);
 
       final GoogleMapController controller = await _controller.future;
       LatLng latLng = await controller.getLatLng(screenCoordinate);
@@ -157,7 +155,7 @@ class _MapPlotScreen extends State<MapPlotScreen> {
         _userPolyLinesLatLngList.add(latLng);
 
         _polyLines.removeWhere(
-                (polyline) => polyline.polylineId.value == 'user_polyline');
+            (polyline) => polyline.polylineId.value == 'user_polyline');
         _polyLines.add(
           Polyline(
             polylineId: PolylineId('user_polyline'),
@@ -204,4 +202,3 @@ class _MapPlotScreen extends State<MapPlotScreen> {
     });
   }
 }
-

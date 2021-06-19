@@ -2,7 +2,6 @@ import 'package:aggie/pages/auth/components/FormSignIn.dart';
 import 'package:aggie/pages/auth/components/FormSignUp.dart';
 import 'package:flutter/material.dart';
 
-
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,10 +11,7 @@ class LoginScreen extends StatelessWidget {
         child: Scaffold(
           appBar: buildTabBar(),
           body: TabBarView(
-            children: [
-              FormSignIn(),
-              FormSignUp()
-            ],
+            children: [FormSignIn(), FormSignUp()],
           ),
         ),
       ),
@@ -25,10 +21,7 @@ class LoginScreen extends StatelessWidget {
   AppBar buildTabBar() {
     return AppBar(
       bottom: TabBar(
-        tabs: [
-          Tab(icon: Text('SIGN IN')),
-          Tab(icon: Text('SIGN UP'))
-        ],
+        tabs: [Tab(icon: Text('SIGN IN')), Tab(icon: Text('SIGN UP'))],
       ),
       title: Text('AGGIE'),
     );

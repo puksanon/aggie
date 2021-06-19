@@ -47,8 +47,14 @@ class _ProfileState extends State<Profile> {
       ),
       body: Container(),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => _locationData != null ? Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MapPlotScreen(location: _locationData,))) : null,
+          onPressed: () => _locationData != null
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MapPlotScreen(
+                            location: _locationData,
+                          )))
+              : null,
           backgroundColor: Colors.orange,
           label: Row(
             children: <Widget>[
@@ -65,4 +71,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-

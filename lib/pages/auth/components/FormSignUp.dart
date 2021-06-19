@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class JsonSerializable {
   const JsonSerializable();
 }
@@ -16,18 +15,20 @@ class _FormSignUpState extends State<FormSignUp> {
 
   @override
   Widget build(BuildContext context) {
-    const SizeBox = SizedBox(height: 24,);
+    const SizeBox = SizedBox(
+      height: 24,
+    );
 
     return Form(
       key: _formKey,
       child: Padding(
         padding: EdgeInsets.all(16),
-        child : Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizeBox,
             TextFormField(
-              autofocus:  true,
+              autofocus: true,
               maxLength: 50,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
@@ -36,9 +37,7 @@ class _FormSignUpState extends State<FormSignUp> {
                 hintText: 'Your email address',
                 labelText: 'Email',
               ),
-              onChanged: (value) {
-
-              },
+              onChanged: (value) {},
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
@@ -62,13 +61,11 @@ class _FormSignUpState extends State<FormSignUp> {
                       })),
               maxLength: 15,
               obscureText: _isObscure,
-              onChanged: (value) {
-
-              },
+              onChanged: (value) {},
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
-                }else if (value.length < 8 ){
+                } else if (value.length < 8) {
                   return 'Password less 8 character';
                 }
                 return null;
@@ -90,13 +87,11 @@ class _FormSignUpState extends State<FormSignUp> {
                       })),
               maxLength: 15,
               obscureText: _isObscure,
-              onChanged: (value) {
-
-              },
+              onChanged: (value) {},
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
-                }else if (value.length < 8 ){
+                } else if (value.length < 8) {
                   return 'Password less 8 character';
                 }
                 return null;
@@ -106,8 +101,8 @@ class _FormSignUpState extends State<FormSignUp> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Processing Data')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Processing Data')));
                   }
                 },
                 child: Text('Submit'),

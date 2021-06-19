@@ -81,7 +81,8 @@ class _FormSignInState extends State<FormSignIn> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Profile()));
                   }
                 },
                 child: Text('Submit'),
