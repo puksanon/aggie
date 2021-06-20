@@ -27,7 +27,34 @@ class _PostMapPageState extends State<PostMapPage> {
   handleCretePlan() async {
     final res = await Provider.of<PlanCubit>(context, listen: false)
         .createPlan(planName.text, address.text, widget.location);
-    if (res != null) PageRouter.redirectToHome(context);
+    if (res != null)
+      PageRouter.redirectToHome(context);
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(getErrorSnackBar());
+    }
+  }
+
+  SnackBar getErrorSnackBar() {
+    return SnackBar(
+      backgroundColor: Colors.red,
+      action: SnackBarAction(
+        label: 'Close',
+        textColor: Colors.white,
+        onPressed: () {
+          // Code to execute.
+        },
+      ),
+      content: Text('   Create Failed'),
+      duration: const Duration(milliseconds: 1500),
+      width: 280.0, // Width of the SnackBar.
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0, // Inner padding for SnackBar content.
+      ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
   }
 
   @override

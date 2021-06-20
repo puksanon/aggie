@@ -49,9 +49,10 @@ class PlanCubit extends Cubit<PlanState> {
         throw (body['message']);
       }
     } catch (e) {
-      if (temp is PlanLoaded) emit(PlanLoaded(plans: temp.plans));
       print(e);
       emit(PlanStateErrors());
+    } finally {
+      if (temp is PlanLoaded) emit(PlanLoaded(plans: temp.plans));
     }
   }
 
