@@ -32,10 +32,14 @@ class _HomePageState extends State<HomePage> {
     initLocation();
   }
 
+  void setStateIfMounted(f) {
+    if (mounted) setState(f);
+  }
+
   initLocation() async {
     final location = await getCurrentLocation();
     this._currentLocation = LatLng(location.latitude, location.longitude);
-    setState(() {});
+    setStateIfMounted(() {});
   }
 
   @override
