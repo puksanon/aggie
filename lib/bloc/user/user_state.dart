@@ -14,10 +14,24 @@ class UserSingingIn extends UserState {
   List<Object> get props => [];
 }
 
+class UserSingingUp extends UserState {
+  @override
+  List<Object> get props => [];
+}
+
 class UserSingInError extends UserState {
   final String message;
 
   UserSingInError({this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UserSingUpError extends UserState {
+  final String message;
+
+  UserSingUpError({this.message});
 
   @override
   List<Object> get props => [message];

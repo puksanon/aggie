@@ -49,10 +49,8 @@ class PlanCubit extends Cubit<PlanState> {
         throw (body['message']);
       }
     } catch (e) {
-      print(e);
-      emit(PlanStateErrors());
-    } finally {
       if (temp is PlanLoaded) emit(PlanLoaded(plans: temp.plans));
+      print(e);
     }
   }
 
@@ -67,7 +65,7 @@ class PlanCubit extends Cubit<PlanState> {
             .forEach((value) => {listTemp.add(Plan.fromJson(value))});
         emit(PlanLoaded(plans: listTemp));
       } else {
-        throw (body['errors']);
+        throw (body['message']);
       }
     } catch (e) {
       print(e);

@@ -14,4 +14,18 @@ class UserRepo {
       print(e);
     }
   }
+
+  Future<http.Response> singUp(
+      String email, String password, String name) async {
+    Map<String, dynamic> reqBody = {
+      'email': email,
+      'password': password,
+      'name': name
+    };
+    try {
+      return await httpClient.post(this._singUpUrl, body: reqBody);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

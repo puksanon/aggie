@@ -2,6 +2,7 @@ import 'package:aggie/bloc/plan/plan_cubit.dart';
 import 'package:aggie/bloc/user/user_cubit.dart';
 import 'package:aggie/pages/profile/components/loadding.dart';
 import 'package:aggie/pages/profile/components/plan_card.dart';
+import 'package:aggie/router/route.dart';
 import 'package:aggie/theme/design_token.dart';
 import 'package:aggie/widgets/appbar.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,15 @@ class _ProfileState extends State<ProfilePage> {
     await Provider.of<PlanCubit>(context, listen: false).refresh();
   }
 
+  handleSignOut() async {
+    await Provider.of<UserCubit>(context, listen: false).logout();
+    PageRouter.redirectToLogin(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final userState = Provider.of<UserCubit>(context).state;
+    final userCubit = Provider.of<UserCubit>(context);
+    final userState = userCubit.state;
     final planCubit = Provider.of<PlanCubit>(context);
     final planState = planCubit.state;
     return Scaffold(
@@ -47,7 +54,7 @@ class _ProfileState extends State<ProfilePage> {
                             style: Theme.of(context).textTheme.subtitle2,
                           ),
                           SizedBox(
-                            height: 4,
+                            height: 8,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,6 +70,21 @@ class _ProfileState extends State<ProfilePage> {
                               Text('${userState.user.email}')
                             ],
                           ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.red)),
+                                  onPressed: handleSignOut,
+                                  child: Text('Sign Out'))
+                            ],
+                          )
                         ],
                       ),
                     ),

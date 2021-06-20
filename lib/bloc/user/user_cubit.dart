@@ -32,10 +32,28 @@ class UserCubit extends Cubit<UserState> {
           return 'signed';
         }
       } else {
-        throw (body['errors']);
+        throw (body['message'] ?? 'SingIn failed');
       }
     } catch (e) {
-      emit(UserSingInError(message: 'Email or Password incorrect'));
+      emit(UserSingInError(message: e));
+      print(e);
+    }
+  }
+
+  Future signUp(String email, String password, String name) async {
+    emit(UserSingingUp());
+    try {
+      final res = await userRepo.singUp(email, password, name);
+      final body = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        await this.signIn(email, password);
+        return 'signed';
+      } else {
+        print('sign up error : ${res.statusCode}');
+        throw (body['message']);
+      }
+    } catch (e) {
+      emit(UserSingUpError(message: e));
       print(e);
     }
   }

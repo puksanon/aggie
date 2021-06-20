@@ -1,4 +1,5 @@
 import 'package:aggie/models/plan_model.dart';
+import 'package:aggie/pages/auth/login.dart';
 import 'package:aggie/pages/home/home.dart';
 import 'package:aggie/pages/map_detail_page/plan_detail.dart';
 import 'package:aggie/pages/map_detail_page/post_map.dart';
@@ -34,6 +35,14 @@ class PageRouter {
             builder: (context) => PlanDetailPage(
                   plan: plan,
                 )));
+  }
+
+  static redirectToLogin(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+      (route) => false,
+    );
   }
 
   static redirectToHome(BuildContext context) {
