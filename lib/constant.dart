@@ -9,4 +9,4 @@ const double kDefaultPadding = 20.0;
 
 final String mapApiKey = 'AIzaSyAUwKCNsTpSabDTEiL6J7EnmRGV62mu6ak';
 
-final String apiEndpoint = 'https://e31ae0217231.ap.ngrok.io/api';
+final String apiEndpoint = 'https://7ed75165a99d.ap.ngrok.io/api';
