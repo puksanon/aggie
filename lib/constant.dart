@@ -6,3 +6,7 @@ const kTextColor = Color(0xFF3C4046);
 const kBackgroundColor = Color(0xFFF9F8FD);
 
 const double kDefaultPadding = 20.0;
+
+final String mapApiKey = 'AIzaSyAUwKCNsTpSabDTEiL6J7EnmRGV62mu6ak';
+
+final String apiEndpoint = 'https://a22cd77fbbeb.ap.ngrok.io/api';

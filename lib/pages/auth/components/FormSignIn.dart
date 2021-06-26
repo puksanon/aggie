@@ -1,5 +1,10 @@
-import 'package:aggie/pages/profile/profile.dart';
+import 'package:aggie/bloc/user/user_cubit.dart';
+import 'package:aggie/router/route.dart';
+import 'package:aggie/theme/design_token.dart';
+import 'package:aggie/widgets/CTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 class JsonSerializable {
   const JsonSerializable();
@@ -13,80 +18,118 @@ class FormSignIn extends StatefulWidget {
 class _FormSignInState extends State<FormSignIn> {
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
-  String email = "";
-  String password = "";
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  handleSignIn() async {
+    final userCubit = Provider.of<UserCubit>(context, listen: false);
+    if (email.text.isNotEmpty && password.text.isNotEmpty) {
+      final res = await userCubit.signIn(email.text, password.text);
+      if (res != null)
+        PageRouter.redirectToHome(context);
+      else {
+        final userState = Provider.of<UserCubit>(context, listen: false).state;
+        if (userState is UserSingInError) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(_getErrorSnackBar(userState.message));
+        }
+      }
+    }
+    // PageRouter.redirectToHome(context);
+  }
+
+  SnackBar _getErrorSnackBar(String message) {
+    return SnackBar(
+      backgroundColor: Colors.red,
+      action: SnackBarAction(
+        label: 'Close',
+        textColor: Colors.white,
+        onPressed: () {
+          // Code to execute.
+        },
+      ),
+      content: Text('   $message'),
+      duration: const Duration(milliseconds: 1500),
+      width: 280.0, // Width of the SnackBar.
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0, // Inner padding for SnackBar content.
+      ),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    const SizeBox = SizedBox(
-      height: 24,
-    );
-
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: EdgeInsets.all(16),
+    final userState = Provider.of<UserCubit>(context).state;
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.only(right: 24, left: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizeBox,
-            TextFormField(
-              autofocus: true,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                filled: true,
-                icon: const Icon(Icons.person),
-                hintText: 'Your email address',
-                labelText: 'Email',
-              ),
-              onChanged: (value) {
-                this.email = value;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
+            SizedBox(
+              height: 16,
             ),
-            SizeBox,
-            TextFormField(
-              decoration: InputDecoration(
-                  filled: true,
-                  icon: const Icon(Icons.lock),
-                  hintText: 'Your password',
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                      icon: Icon(
-                          _isObscure ? Icons.visibility : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          _isObscure = !_isObscure;
-                        });
-                      })),
-              maxLength: 15,
-              obscureText: _isObscure,
-              onChanged: (value) {
-                this.password = value;
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                } else if (value.length < 8) {
-                  return 'Password less 8 character';
-                }
-                return null;
-              },
+            SizedBox(
+              height: 24,
+            ),
+            Text(
+              'Email',
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            CTextField(
+              controller: email,
+              hintText: 'Email',
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              'Password',
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            CTextField(
+              obstacle: true,
+              controller: password,
+              hintText: 'Password',
+            ),
+            SizedBox(
+              height: 32,
             ),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
-                  }
-                },
-                child: Text('Submit'),
+              child: Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: primary, borderRadius: BorderRadius.circular(20)),
+                child: userState is UserSingingIn
+                    ? SpinKitRing(
+                        color: Colors.white,
+                        size: 30,
+                        lineWidth: 4,
+                      )
+                    : TextButton(
+                        child: Center(
+                            child: Text(
+                          'Sign In',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: white),
+                        )),
+                        onPressed: handleSignIn,
+                      ),
               ),
-            ),
+            )
           ],
         ),
       ),
