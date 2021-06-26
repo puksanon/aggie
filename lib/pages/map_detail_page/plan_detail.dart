@@ -55,62 +55,99 @@ class _PlanDetailState extends State<PlanDetailPage> {
                                 target: planDetailState.plan.location,
                                 zoom: 16)),
                       ),
-                      Container(
-                        padding:
-                            EdgeInsets.only(left: 24, right: 24, bottom: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Text(
-                              '${planDetailState.plan.planName}',
-                              style: Theme.of(context).textTheme.headline5,
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Text(
-                              'Location',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Text(
-                              'Lat : ${planDetailState.plan.location.latitude}, Lng : ${planDetailState.plan.location.longitude}',
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Text(
-                              'Address',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Text(
-                              '${planDetailState.plan.address}',
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Text(
-                              'ความเหมาะสม',
-                              style: Theme.of(context).textTheme.subtitle1,
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Text(
-                              '${planDetailState.plan.unit}',
-                            ),
-                          ],
+                      Flexible(
+                        child: Container(
+                          padding:
+                              EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                          child: ListView(
+                            children: [
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                '${planDetailState.plan.planName}',
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'Location',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                'Lat : ${planDetailState.plan.location.latitude}, Lng : ${planDetailState.plan.location.longitude}',
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'Address',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                '${planDetailState.plan.address}',
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'ความเหมาะสม',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                '${planDetailState.plan.unit}',
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'ชุดดิน',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                '${planDetailState.plan.soil}',
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'ชั้นหินอุ้มน้ำ',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                '${planDetailState.plan.hydro}',
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                'ศักยภาพนํ้าดาบาล',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                '${planDetailState.plan.gwav}',
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],
