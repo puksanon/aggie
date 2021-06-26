@@ -101,7 +101,7 @@ class _PlanDetailState extends State<PlanDetailPage> {
                               height: 24,
                             ),
                             Text(
-                              'Unit',
+                              'ความเหมาะสม',
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
                             SizedBox(
