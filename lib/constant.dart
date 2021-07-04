@@ -9,4 +9,4 @@ const double kDefaultPadding = 20.0;
 
 final String mapApiKey = 'AIzaSyAUwKCNsTpSabDTEiL6J7EnmRGV62mu6ak';
 
-final String apiEndpoint = 'https://3b422425405c.ap.ngrok.io/api';
+final String apiEndpoint = 'https://aggie-map-service.herokuapp.com/api';
